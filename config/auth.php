@@ -18,6 +18,12 @@ return [
         'passwords' => 'users',
     ],
 
+    'redirects' => [
+        'login' => null,
+        'logout' => '/',
+        'register' => '/register/role', // Перенаправляем на выбор роли
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

@@ -40,4 +40,24 @@ body {
     .container {
         max-width: 1280px;
     }
+
+    .transition {
+    transition: all 0.3s ease;
+}
+
+.hover\:bg-blue-700:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 1; }
+}
+
+.urgent-request {
+    animation: pulse 2s infinite;
+}
+
 }

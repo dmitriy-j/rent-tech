@@ -11,8 +11,12 @@ class EquipmentController extends Controller
 {
     public function index()
     {
-        $equipments = Equipment::where('owner_id', auth()->id())->get();
+        /*$equipments = Equipment::where('owner_id', auth()->id())->get();
+        return view('landlord.equipment.index', compact('equipments'));*/
+            $equipments = Equipment::where('owner_id', auth()->id())
+                    ->paginate(10); // 10 элементов на странице
         return view('landlord.equipment.index', compact('equipments'));
+
     }
 
     public function create()
@@ -41,37 +45,36 @@ class EquipmentController extends Controller
             ->with('success', 'Техника успешно добавлена');
     }
 
+    public function show(Equipment $equipment)
+    {
+        $this->authorize('view', $equipment);
+        return view('landlord.equipment.show', compact('equipment'));
+    }
+
     public function edit(Equipment $equipment)
     {
-        // Убедитесь, что редактировать может только владелец устройства
-        if ($equipment->owner_id !== auth()->id()) {
-            abort(403, 'Недостаточно прав для редактирования.');
-        }
-
+        $this->authorize('update', $equipment);
         return view('landlord.equipment.edit', compact('equipment'));
     }
 
     public function update(Request $request, Equipment $equipment)
     {
-        // Убедитесь, что только владелец устройства может обновлять
-        if ($equipment->owner_id !== auth()->id()) {
-            abort(403, 'Недостаточно прав для обновления.');
-        }
+        $this->authorize('update', $equipment);
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'hourly_rate' => 'required|numeric|min:100',
+            'status' => 'required|in:available,rented,repair',
             'image' => 'nullable|image|max:2048',
         ]);
 
+        // Обновление изображения
         if ($request->hasFile('image')) {
-            // Удалите старые фотографии (если они существуют)
+            // Удаляем старое изображение
             if ($equipment->image_path) {
                 Storage::disk('public')->delete($equipment->image_path);
             }
-
-            // Сохранить новое изображение
             $data['image_path'] = $request->file('image')->store('equipment', 'public');
         }
 
@@ -83,13 +86,15 @@ class EquipmentController extends Controller
 
     public function destroy(Equipment $equipment)
     {
-        // Убедитесь, что удалить его может только владелец устройства
-        if ($equipment->owner_id !== auth()->id()) {
-            abort(403, 'Недостаточно прав для удаления.');
+        $this->authorize('delete', $equipment);
+
+        // Проверка на активные заказы
+        if ($equipment->activeRentals()->exists()) {
+            return redirect()->back()
+                ->withErrors('Нельзя удалить технику с активными арендами');
         }
 
-        // Удалить картинку (если она существует)
-
+        // Удаление изображения
         if ($equipment->image_path) {
             Storage::disk('public')->delete($equipment->image_path);
         }

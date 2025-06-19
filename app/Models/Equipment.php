@@ -18,5 +18,14 @@ class Equipment extends Model
     {
         return $this->hasMany(Order::class);
     }
+    public function activeRentals()
+    {
+        return $this->rentals()
+            ->whereIn('status', ['pending', 'active']);
+    }
 
+    public function rentals()
+    {
+        return $this->hasMany(Rental::class);
+    }
 }

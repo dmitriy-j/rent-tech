@@ -23,10 +23,10 @@
                 <a href="{{ route('tenant.documents') }}" class="flex items-center p-2 rounded hover:bg-gray-200 transition">
                     <i class="fas fa-file-alt mr-2 text-blue-600"></i> Документы
                 </a>
-                <a href="{{ route('tenant.contract') }}" class="flex items-center p-2 rounded hover:bg-gray-200 transition">
+                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-200 transition">
                     <i class="fas fa-file-contract mr-2 text-blue-600"></i> Договор
                 </a>
-                <a href="{{ route('tenant.feedback') }}" class="flex items-center p-2 rounded hover:bg-gray-200 transition">
+                <a href="#" class="flex items-center p-2 rounded hover:bg-gray-200 transition">
                     <i class="fas fa-comment-alt mr-2 text-blue-600"></i> Жалобы и предложения
                 </a>
             </nav>
@@ -39,7 +39,7 @@
 
 @else
     <!-- Сайдбар для гостя -->
-    <div class="mb-6 bg-white p-4 rounded-lg shadow">
+     <div class="mb-6 bg-white p-4 rounded-lg shadow">
         <h3 class="text-lg font-bold mb-4 text-center">Вход в систему</h3>
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -79,7 +79,7 @@
     </div>
 
     <div class="mb-6">
-        <a href="{{ route('register') }}" class="block text-center bg-gray-200 p-3 rounded-lg font-medium hover:bg-gray-300 transition">
+        <a href="{{ route('register.role') }}" class="block text-center bg-gray-200 p-3 rounded-lg font-medium hover:bg-gray-300 transition">
             Регистрация
         </a>
     </div>

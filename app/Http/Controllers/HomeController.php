@@ -6,23 +6,23 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        // По умолчанию показываем страницу "О компании"
+        return $this->about();
+    }
+
+    public function about()
+    {
+        $content = view('about')->render();
+        return view('home', compact('content'));
+    }
+
+    // Добавьте другие методы для разных страниц
+    public function contacts()
+    {
+        $content = view('contacts')->render();
+        return view('home', compact('content'));
     }
 }
+

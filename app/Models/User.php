@@ -68,5 +68,11 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+
 
 }
