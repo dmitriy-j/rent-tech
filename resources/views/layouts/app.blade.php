@@ -107,7 +107,7 @@
                         <h3 class="font-bold text-lg mb-4 flex items-center">
                             <i class="fas fa-phone-alt mr-2"></i> Контакты
                         </h3>
-                        <p class="mb-2"><i class="fas fa-phone mr-2"></i> +7 (ХХХ) ХХХ-ХХ-ХХ</p>
+                        <p class="mb-2"><i class="fas fa-phone mr-2"></i> +7 (499) 778-51-43</p>
                         <p><i class="fas fa-envelope mr-2"></i> info@renttech.ru</p>
                     </div>
 

@@ -46,9 +46,16 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Auth::routes();
 
 // Личный кабинет арендатора
-Route::prefix('tenant')->middleware(['auth', 'role:tenant'])->group(function () {
+    oute::prefix('tenant')->middleware(['auth', 'role:tenant'])->group(function () {
     Route::get('/dashboard', [TenantController::class, 'dashboard'])->name('tenant.dashboard');
     Route::get('/orders', [TenantController::class, 'orders'])->name('tenant.orders');
+    Route::get('/balance/deposit', [BalanceController::class, 'depositForm'])->name('tenant.balance.deposit');
+    Route::post('/balance/deposit', [BalanceController::class, 'processDeposit'])->name('tenant.balance.process');
+    Route::get('/balance/confirm', [BalanceController::class, 'confirmDeposit'])->name('tenant.balance.confirm');
+    Route::resource('rentals', RentalController::class);
+    Route::resource('documents', DocumentController::class);
+
+
     // ... другие роуты для арендатора
 });
 
@@ -56,6 +63,10 @@ Route::prefix('tenant')->middleware(['auth', 'role:tenant'])->group(function () 
 Route::prefix('landlord')->middleware(['auth', 'role:landlord'])->group(function () {
     Route::get('/equipment', [LandlordController::class, 'equipment'])->name('landlord.equipment');
     Route::get('/orders', [LandlordController::class, 'orders'])->name('landlord.orders');
+    Route::get('/dashboard', [LandlordController::class, 'dashboard'])->name('landlord.dashboard');
+    Route::resource('equipment', EquipmentController::class);
+    Route::resource('orders', OrderController::class);
+
     // ... другие роуты для арендодателя
 });
 

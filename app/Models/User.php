@@ -55,6 +55,18 @@ class User extends Authenticatable
         return $this->hasMany(Document::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function updateBalance()
+    {
+        $this->balance = $this->transactions()
+            ->where('status', 'completed')
+            ->sum('amount');
+        $this->save();
+    }
 
 
 }
